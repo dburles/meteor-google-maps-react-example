@@ -37,7 +37,7 @@ GoogleMap = React.createClass({
   componentDidMount() {
     GoogleMaps.create({
       name: this.props.name,
-      element: this.getDOMNode(),
+      element: React.findDOMNode(this),
       options: this.props.options
     });
 
