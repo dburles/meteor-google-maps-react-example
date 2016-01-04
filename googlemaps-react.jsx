@@ -51,7 +51,7 @@ GoogleMap = React.createClass({
   componentWillUnmount() {
     if (GoogleMaps.maps[this.props.name]) {
       google.maps.event.clearInstanceListeners(GoogleMaps.maps[this.props.name].instance);
-      delete GooogleMaps.maps[this.props.name];
+      delete GoogleMaps.maps[this.props.name];
     } 
   },
   render() {
