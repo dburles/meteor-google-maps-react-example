@@ -1,39 +1,47 @@
-App = React.createClass({
+import React from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
+
+class App extends React.Component {
   render() {
     return <MyTestMap />;
   }
-});
+};
 
-MyTestMap = React.createClass({
-  mixins: [ReactMeteorData],
+class MyTestMap extends React.Component {
+  constructor() {
+    super();
+  }
+
   componentDidMount() {
     GoogleMaps.load();
-  },
-  getMeteorData() {
-    return {
-      loaded: GoogleMaps.loaded(),
-      mapOptions: GoogleMaps.loaded() && this._mapOptions()
-    };
-  },
-  _mapOptions() {
-    return {
-      center: new google.maps.LatLng(-37.8136, 144.9631),
-      zoom: 8
-    };
-  },
+  }
+
   render() {
-    if (this.data.loaded)
-      return <GoogleMap name="mymap" options={this.data.mapOptions} />;
+    if (this.props.loaded)
+      return <GoogleMap name="mymap" options={this.props.mapOptions} />;
 
     return <div>Loading map...</div>;
   }
-});
+};
 
-GoogleMap = React.createClass({
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    options: React.PropTypes.object.isRequired
-  },
+let MyTestMapContainer = createContainer (() => {
+  const loaded = GoogleMaps.loaded();
+  const _mapOptions = function() {
+    return {
+      center: new google.maps.LatLng(-37.8136, 144.9631),
+      zoom: 8    
+    }
+  }
+  const mapOptions = _mapOptions();
+
+  return {
+    loaded,
+    mapOptions
+  }
+
+})
+
+class GoogleMap extends React.Component{
   componentDidMount() {
     GoogleMaps.create({
       name: this.props.name,
@@ -47,17 +55,24 @@ GoogleMap = React.createClass({
         map: map.instance
       });
     });
-  },
+  }
+
   componentWillUnmount() {
     if (GoogleMaps.maps[this.props.name]) {
       google.maps.event.clearInstanceListeners(GoogleMaps.maps[this.props.name].instance);
       delete GoogleMaps.maps[this.props.name];
     } 
-  },
+  }
+
   render() {
     return <div className="map-container"></div>;
   }
-});
+};
+
+GoogleMap.propTypes = {
+  name: React.PropTypes.string.isRequired,
+  options: React.PropTypes.object.isRequired
+}
 
 if (Meteor.isClient) {
   Meteor.startup(function() {
