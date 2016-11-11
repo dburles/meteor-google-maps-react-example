@@ -2,15 +2,14 @@ import React, { PropTypes } from 'react';
 import GoogleMap from './lib/GoogleMap';
 import { createContainer } from 'meteor/react-meteor-data';
 
-// This function is called once the library has loaded
-function mapOptions() {
-  return {
-    center: new google.maps.LatLng(-37.8136, 144.9631),
-    zoom: 8,
-  };
-};
-
 class MyMap extends React.Component {
+  handleMapOptions() {
+    return {
+      center: new google.maps.LatLng(-37.8136, 144.9631),
+      zoom: 8,
+    };
+  }
+
   handleOnReady(name) {
     GoogleMaps.ready(name, map => {
       const marker = new google.maps.Marker({
@@ -22,7 +21,7 @@ class MyMap extends React.Component {
 
   render() {
     return (
-      <GoogleMap onReady={this.handleOnReady} mapOptions={mapOptions}>
+      <GoogleMap onReady={this.handleOnReady} mapOptions={this.handleMapOptions}>
         Loading!
       </GoogleMap>
     );
