@@ -30,7 +30,7 @@ class GoogleMap extends React.Component {
 
   render() {
     return (
-      <div className="map-container" ref={c => this.container = c}>
+      <div className="map-container" ref={c => (this.container = c)}>
         {this.props.children}
       </div>
     );
