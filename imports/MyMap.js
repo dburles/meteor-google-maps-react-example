@@ -1,6 +1,5 @@
 import React from 'react';
 import GoogleMap from './lib/GoogleMap';
-import { createContainer } from 'meteor/react-meteor-data';
 
 class MyMap extends React.Component {
   handleMapOptions() {
