@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import GoogleMap from './lib/GoogleMap';
 import { createContainer } from 'meteor/react-meteor-data';
 
