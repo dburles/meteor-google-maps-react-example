@@ -5,6 +5,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 class GoogleMap extends React.Component {
   componentDidMount() {
     GoogleMaps.load(this.props.options || {});
+    this.forceUpdate();
   }
 
   componentDidUpdate() {
@@ -23,19 +24,21 @@ class GoogleMap extends React.Component {
 
   componentWillUnmount() {
     if (GoogleMaps.maps[this.name]) {
-      google.maps.event.clearInstanceListeners(GoogleMaps.maps[this.name].instance);
+      google.maps.event.clearInstanceListeners(
+        GoogleMaps.maps[this.name].instance,
+      );
       delete GoogleMaps.maps[this.name];
-    } 
+    }
   }
 
   render() {
     return (
-      <div className="map-container" ref={c => (this.container = c)}>
+      <div className="map-container" ref={c => this.container = c}>
         {this.props.children}
       </div>
     );
   }
-};
+}
 
 GoogleMap.propTypes = {
   loaded: PropTypes.bool.isRequired,
@@ -45,6 +48,9 @@ GoogleMap.propTypes = {
   children: PropTypes.node,
 };
 
-GoogleMapContainer = createContainer(() => ({ loaded: GoogleMaps.loaded() }), GoogleMap);
+GoogleMapContainer = createContainer(
+  () => ({ loaded: GoogleMaps.loaded() }),
+  GoogleMap,
+);
 
 export default GoogleMapContainer;
