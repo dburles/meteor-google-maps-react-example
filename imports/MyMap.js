@@ -23,11 +23,11 @@ class MyMap extends Component {
           Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
         });
 
-        var markers = {};
+        const markers = {};
 
         Markers.find().observe({
           added: function(document) {
-            var marker = new google.maps.Marker({
+            const marker = new google.maps.Marker({
               draggable: true,
               animation: google.maps.Animation.DROP,
               position: new google.maps.LatLng(document.lat, document.lng),
